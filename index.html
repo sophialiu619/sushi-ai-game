@@ -51,7 +51,7 @@
     const userInput = document.getElementById("userInput");
 
     userInput.addEventListener("keydown", async (e) => {
-  if (e.key === "Enter") {
+  if (e.key === "Enter" && userInput.value.trim() !== "") {
     if (usageCount >= maxUsage) {
       appendMessage("系統", "你已達到今天的對話上限（${maxUsage} 次），請明天再來找王安石吧！", "ai");
       return;
@@ -71,7 +71,7 @@
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "gpt-3.5-turbo",
+        model: "gpt-4",
         messages: [
           {
             role: "system",
