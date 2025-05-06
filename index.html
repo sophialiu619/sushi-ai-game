@@ -53,7 +53,33 @@
         appendMessage("你", message, "user");
 
         // 呼叫 AI 的回覆（這裡我們等等會加上 fetch OpenAI）
-        appendMessage("王安石", "（AI 正在思考中...）", "ai");
+        // 傳送請求到你的 Cloudflare Worker API Proxy
+const proxyURL = "https://cold-poetry-e45b.sophialiu619.workers.dev/"; // <== 記得換成你的網址！
+
+const response = await fetch(proxyURL, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    model: "gpt-3.5-turbo",
+    messages: [
+      {
+        role: "system",
+        content: "你現在扮演王安石，而使用者是蘇軾，依據《次荊公韻四絕》的情感背景，進行一場角色扮演對話。"
+      },
+      {
+        role: "user",
+        content: message
+      }
+    ]
+  }),
+});
+
+const data = await response.json();
+const aiMessage = data.choices?.[0]?.message?.content || "（王安石沉默不語⋯⋯）";
+appendMessage("王安石", aiMessage, "ai");
+
       }
     });
 
