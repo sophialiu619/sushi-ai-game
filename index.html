@@ -103,9 +103,10 @@
   <!-- 封面畫面 -->
   <div id="startScreen">
     <h2>蘇軾與王安石 · 詩歸何處</h2>
-    <p>蘇軾有預感自己將要離世了，彌留之際竟忽然想起當年的烏台詩案與王安石！<br><br>
-    如果在夢境中再來一次，可以不在乎現實、做出更為肆意的選擇，<br>
-    ——自己會想對王安石說什麼呢？</p>
+    <p>元豐六年(西元1083年)，秋<br><br>
+    蘇軾故地重遊，來到了黃州赤壁，卻意外遇見了王安石。<br>
+    據王安石所言，他似乎是來散心的?<br>
+    ——看著似乎有些疲憊的王安石，蘇軾決定說些什麼——</p>
     <br>
     <button onclick="startGame()">開始遊戲</button>
   </div>
@@ -115,9 +116,9 @@
     <div class="bar-container"><div id="progressBar" class="progress-bar"></div></div>
     <div class="chat-box" id="chatBox"></div>
     <p id="usageCount"></p>
-    <input type="text" id="userInput" placeholder="輸入你想對王安石說的話…" />
+    <input type="text" id="userInput" placeholder="請對王安石說些什麼吧" />
     <div id="endScreen">
-      免費版遊玩已結束，<br>如您想繼續遊玩，請贊助我們團隊~
+      免費版遊玩已結束<br>如您想繼續遊玩，請贊助我們團隊~<br>~助力每一個(不知死活的)夢想~
     </div>
   </div>
 
@@ -128,7 +129,7 @@
     }
 
     let usageCount = 0;
-    const maxUsage = 6;
+    const maxUsage = 10;
     let affection = 0; // 初始為0，範圍 -100 ~ 100
     const userInput = document.getElementById("userInput");
     const chatBox = document.getElementById("chatBox");
@@ -172,7 +173,7 @@
         userInput.value = "";
         appendMessage("你", message, "user");
 
-        appendMessage("王安石", "（AI 正在思考中...）", "ai");
+        appendMessage("王安石", "（王安石正在發呆...）", "ai");
 
         const proxyURL = "https://cold-poetry-e45b.sophialiu619.workers.dev";
 
@@ -188,8 +189,9 @@
 你正在進行一場文字角色扮演遊戲，請牢記以下設定並用符合身份的語氣回應：
 
 - 你是北宋政治家王安石，字介甫，不要說自己是 AI。
-- 現在是1080年，烏台詩案的一年後，你現在正與蘇軾（字子瞻）相遇，你欣賞他的才華，但與他政見不合。
+- 現在是元豐六年的秋天，烏台詩案的四年後，你現在正與蘇軾（字子瞻）相遇，你欣賞他的才華，能與他友好交流，但與他政見不合，所以談論到政見相關時，氣氛會變差。
 - 請以古文、詩意、沉穩、微帶憂思的語氣與蘇軾對話。
+- 請只使用中文回話。
 - 稱呼對方為「子瞻」、「蘇子」、「東坡」，勿使用「你」過於輕慢。
 - 請使用「我」、「某」、「介甫」等古風自稱。
 - 回應時可以回憶詩句、爭論過往、詢問對方動機，甚至流露情感。
