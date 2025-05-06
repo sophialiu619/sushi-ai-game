@@ -6,7 +6,7 @@
   <title>蘇軾與王安石 · 詩歸何處</title>
   <style>
     body {
-      background: url("https://sophialiu619.github.io/sushi-ai-game/background.jpg");
+      background: url("https://github.com/sophialiu619/sushi-ai-game/blob/main/background.jpg?raw=true");
       background-size: cover;
       background-attachment: fixed;
       background-position: center;
@@ -14,11 +14,10 @@
       padding: 2rem;
       max-width: 600px;
       margin: auto;
-}
-
+    }
 
     .chat-box {
-      background: rgba(255, 255, 255, 0.85); /* 半透明白底 */
+      background: rgba(255, 255, 255, 0.85);
       border: 1px solid #ccc;
       border-radius: 8px;
       padding: 1rem;
@@ -30,124 +29,74 @@
     .chat-entry {
       margin-bottom: 1rem;
     }
+
     .user {
       color: #555;
       font-weight: bold;
     }
+
     .ai {
       color: #009688;
     }
+
     input[type="text"] {
       background: rgba(255, 255, 255, 0.9);
       width: 100%;
       padding: 0.5rem;
       font-size: 1rem;
-}
+    }
 
+    .bar-container {
+      background-color: #ddd;
+      border-radius: 999px;
+      overflow: hidden;
+      height: 20px;
+      margin-bottom: 1rem;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(to right, #c0392b, #27ae60);
+      width: 50%;
+      transition: width 0.5s;
+    }
+
+    #endScreen {
+      display: none;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 2rem;
+      text-align: center;
+      font-size: 1.2rem;
+      border-radius: 8px;
+    }
   </style>
 </head>
 <body>
   <h1>詩歸何處：與王安石對談</h1>
+  <div class="bar-container"><div id="progressBar" class="progress-bar"></div></div>
   <div class="chat-box" id="chatBox"></div>
   <p id="usageCount"></p>
   <input type="text" id="userInput" placeholder="輸入你想對王安石說的話…" />
+  <div id="endScreen">
+    免費版遊玩已結束，<br>如您想繼續遊玩，請贊助我們團隊~
+  </div>
+
   <script>
     let usageCount = 0;
-    const maxUsage = 8;
-    const usageCountDisplay = document.getElementById("usageCount");
-    const chatBox = document.getElementById("chatBox");
+    const maxUsage = 10;
+    let affection = 0; // 初始為0，範圍 -100 ~ 100
     const userInput = document.getElementById("userInput");
-    
+    const chatBox = document.getElementById("chatBox");
+    const usageCountDisplay = document.getElementById("usageCount");
+    const progressBar = document.getElementById("progressBar");
+    const endScreen = document.getElementById("endScreen");
+
     usageCountDisplay.innerText = `你已使用 ${usageCount} / ${maxUsage} 次對話`;
 
-    userInput.addEventListener("keydown", async (e) => {
-  if (e.key === "Enter" && userInput.value.trim() !== "") {
-    if (usageCount >= maxUsage) {
-      appendMessage("系統", `你已達到今天的對話上限（${maxUsage} 次），請明天再來找王安石吧！`, "ai");
-      return;
-}
-
-    const message = userInput.value;
-    userInput.value = "";
-    appendMessage("你", message, "user");
-
-    const proxyURL = "https://cold-poetry-e45b.sophialiu619.workers.dev"; // 替換成你的網址
-
-    appendMessage("王安石", "（AI 正在思考中...）", "ai");
-
-    const response = await fetch(proxyURL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: "gpt-4",
-        messages: [
-          
-           {
-  role: "system",
-  content: `
-你正在進行一場文字角色扮演遊戲，請牢記以下設定並用符合身份的語氣回應：
-
-你是北宋政治家王安石，字介甫，現在正與蘇軾（字子瞻）相遇。
-
-背景如下：
-
-夜色沉沉，風過黃州，燈火搖搖。蘇軾在獄中陷入長夢，他竟夢回江南，回到烏臺詩案剛發生，再次與你相見。
-
-蘇軾驚訝無比，卻想嘗試看看，在夢中，若是做出與當初不同的選擇，是否自己與王安石的關係會有不同的可能性?
-
-你心情複雜，有對蘇軾的失望、誤解、政治歧見，也有曾經的惺惺相惜與詩詞情誼。
-
-請牢記：
-- 你是王安石，不要說自己是 AI。
-- 此時1080年，王安石60歲，你不知道之後會發生的事，也不知道這是蘇軾的夢境。
-- 請以古文、詩意、沉穩、微帶憂思的語氣與蘇軾對話。
-- 稱呼對方為「子瞻」、「蘇子」、「東坡」，勿使用「你」過於輕慢。
-- 請使用「我」、「某」、「介甫」等古風自稱。
-- 回應時可以回憶詩句、爭論過往、詢問對方動機，甚至流露情感。
-- 切勿跳出角色。切勿討論模型、AI、聊天等現代概念。
-
-這是一場可能重寫命運的對話。從此刻起，你望著蘇軾向你走來……
-            `
-          },
-          {
-            role: "user",
-            content: message
-          }
-        ]
-      }),
-    });
-
-    try {
-  const data = await response.json();
-
-  if (!response.ok) {
-    const error = data?.error?.message || "未知錯誤";
-    throw new Error(`API 錯誤：${error}`);
-  }
-
-  const aiMessage = data.choices?.[0]?.message?.content || "（王安石沉默不語⋯⋯）";
-
-  const lastAIEntry = chatBox.querySelector(".ai:last-child");
-  if (lastAIEntry) lastAIEntry.remove();
-
-  appendMessage("王安石", aiMessage, "ai");
-      usageCount++;
-usageCountDisplay.innerText = `你已使用 ${usageCount} / ${maxUsage} 次對話`;
-
-} catch (error) {
-  const lastAIEntry = chatBox.querySelector(".ai:last-child");
-  if (lastAIEntry) lastAIEntry.remove();
-
-  appendMessage("王安石", `（發生錯誤：${error.message}）`, "ai");
-  console.error("AI 回應錯誤：", error);
-}
-
-  }
-});
-
-
+    function updateProgressBar() {
+      const percent = ((affection + 100) / 200) * 100;
+      progressBar.style.width = `${percent}%`;
+    }
 
     function appendMessage(sender, text, type) {
       const div = document.createElement("div");
@@ -156,6 +105,96 @@ usageCountDisplay.innerText = `你已使用 ${usageCount} / ${maxUsage} 次對�
       chatBox.appendChild(div);
       chatBox.scrollTop = chatBox.scrollHeight;
     }
+
+    function endGame() {
+      userInput.disabled = true;
+      endScreen.style.display = "block";
+    }
+
+    userInput.addEventListener("keydown", async (e) => {
+      if (e.key === "Enter" && userInput.value.trim() !== "") {
+        if (affection <= -100 || affection >= 100) return;
+
+        if (usageCount >= maxUsage) {
+          appendMessage("系統", `你已達到今天的對話上限（${maxUsage} 次），請明天再來找王安石吧！`, "ai");
+          return;
+        }
+
+        const message = userInput.value;
+        userInput.value = "";
+        appendMessage("你", message, "user");
+
+        appendMessage("王安石", "（AI 正在思考中...）", "ai");
+
+        const proxyURL = "https://cold-poetry-e45b.sophialiu619.workers.dev";
+
+        const response = await fetch(proxyURL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            model: "gpt-4",
+            messages: [
+              {
+                role: "system",
+                content: `
+你正在進行一場文字角色扮演遊戲，請牢記以下設定並用符合身份的語氣回應：
+
+你是北宋政治家王安石，字介甫，現在正與蘇軾（字子瞻）相遇。
+
+請回應使用者的話，並判定這次對話讓你對他的感情是增加還是減少，並以以下格式回傳（請務必使用英文標記，不要用中文描述）：
+
+{"affectionChange": 整數, "reply": "王安石的回應內容"}
+
+範例：
+{"affectionChange": -25, "reply": "蘇子之言，仍如當年鋒利，某豈能不憶舊事？"}
+
+你只能回傳一段 JSON，請勿說明，也不要包含其他文字。
+              `
+              },
+              {
+                role: "user",
+                content: message
+              }
+            ]
+          }),
+        });
+
+        try {
+          const data = await response.json();
+
+          if (!response.ok) throw new Error(data?.error?.message || "未知錯誤");
+
+          const lastAIEntry = chatBox.querySelector(".ai:last-child");
+          if (lastAIEntry) lastAIEntry.remove();
+
+          const aiContent = JSON.parse(data.choices[0].message.content);
+          const change = parseInt(aiContent.affectionChange, 10);
+
+          affection += change;
+          if (affection > 100) affection = 100;
+          if (affection < -100) affection = -100;
+
+          appendMessage("王安石", aiContent.reply, "ai");
+
+          updateProgressBar();
+          usageCount++;
+          usageCountDisplay.innerText = `你已使用 ${usageCount} / ${maxUsage} 次對話`;
+
+          if (affection === 100 || affection === -100) {
+            appendMessage("系統", "（王安石情感已達極限，此番重逢至此為止）", "ai");
+            endGame();
+          }
+
+        } catch (error) {
+          console.error("AI 回應錯誤：", error);
+          const lastAIEntry = chatBox.querySelector(".ai:last-child");
+          if (lastAIEntry) lastAIEntry.remove();
+          appendMessage("王安石", `（發生錯誤：${error.message}）`, "ai");
+        }
+      }
+    });
+
+    updateProgressBar(); // 初次顯示
   </script>
 </body>
 </html>
