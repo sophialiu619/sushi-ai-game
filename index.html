@@ -41,7 +41,7 @@
 <body>
   <h1>詩歸何處：與王安石對談</h1>
   <div class="chat-box" id="chatBox"></div>
-  <p id="usageCount">你已使用 0 / 10 次對話</p>
+  <p id="usageCount"></p>
   <input type="text" id="userInput" placeholder="輸入你想對王安石說的話…" />
   <script>
     let usageCount = 0;
@@ -49,11 +49,13 @@
     const usageCountDisplay = document.getElementById("usageCount");
     const chatBox = document.getElementById("chatBox");
     const userInput = document.getElementById("userInput");
+    
+    usageCountDisplay.innerText = `你已使用 ${usageCount} / ${maxUsage} 次對話`;
 
     userInput.addEventListener("keydown", async (e) => {
   if (e.key === "Enter" && userInput.value.trim() !== "") {
     if (usageCount >= maxUsage) {
-      appendMessage("系統", "你已達到今天的對話上限（${maxUsage} 次），請明天再來找王安石吧！", "ai");
+      appendMessage("系統", `你已達到今天的對話上限（${maxUsage} 次），請明天再來找王安石吧！`, "ai");
       return;
 }
 
