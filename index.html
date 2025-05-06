@@ -16,6 +16,44 @@
       margin: auto;
     }
 
+    #startScreen {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 2rem;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    #startScreen h2 {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+    }
+
+    #startScreen button {
+      padding: 0.5rem 1.2rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background-color: #009688;
+      color: white;
+      cursor: pointer;
+    }
+
+    .bar-container {
+      background-color: #ddd;
+      border: 2px solid #888;
+      border-radius: 999px;
+      overflow: hidden;
+      height: 20px;
+      margin-bottom: 1rem;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(to right, #c0392b, #27ae60);
+      width: 50%;
+      transition: width 0.5s;
+    }
+
     .chat-box {
       background: rgba(255, 255, 255, 0.85);
       border: 1px solid #ccc;
@@ -46,22 +84,6 @@
       font-size: 1rem;
     }
 
-    .bar-container {
-      background-color: #ddd;
-      border: 2px solid #888;
-      border-radius: 999px;
-      overflow: hidden;
-      height: 20px;
-      margin-bottom: 1rem;
-    }
-
-    .progress-bar {
-      height: 100%;
-      background: linear-gradient(to right, #c0392b, #27ae60);
-      width: 50%;
-      transition: width 0.5s;
-    }
-
     #endScreen {
       display: none;
       background: rgba(255, 255, 255, 0.95);
@@ -70,19 +92,41 @@
       font-size: 1.2rem;
       border-radius: 8px;
     }
+
+    #gameContent {
+      display: none;
+    }
   </style>
 </head>
 <body>
-  <h1>詩歸何處：與王安石對談</h1>
-  <div class="bar-container"><div id="progressBar" class="progress-bar"></div></div>
-  <div class="chat-box" id="chatBox"></div>
-  <p id="usageCount"></p>
-  <input type="text" id="userInput" placeholder="輸入你想對王安石說的話…" />
-  <div id="endScreen">
-    免費版遊玩已結束，<br>如您想繼續遊玩，請贊助我們團隊~
+
+  <!-- 封面畫面 -->
+  <div id="startScreen">
+    <h2>蘇軾與王安石 · 詩歸何處</h2>
+    <p>蘇軾有預感自己將要離世了，彌留之際竟忽然想起當年的烏台詩案與王安石！<br><br>
+    如果在夢境中再來一次，可以不在乎現實、做出更為肆意的選擇，<br>
+    ——自己會想對王安石說什麼呢？</p>
+    <br>
+    <button onclick="startGame()">開始遊戲</button>
+  </div>
+
+  <!-- 遊戲內容 -->
+  <div id="gameContent">
+    <div class="bar-container"><div id="progressBar" class="progress-bar"></div></div>
+    <div class="chat-box" id="chatBox"></div>
+    <p id="usageCount"></p>
+    <input type="text" id="userInput" placeholder="輸入你想對王安石說的話…" />
+    <div id="endScreen">
+      免費版遊玩已結束，<br>如您想繼續遊玩，請贊助我們團隊~
+    </div>
   </div>
 
   <script>
+    function startGame() {
+      document.getElementById("startScreen").style.display = "none";
+      document.getElementById("gameContent").style.display = "block";
+    }
+
     let usageCount = 0;
     const maxUsage = 10;
     let affection = 0; // 初始為0，範圍 -100 ~ 100
@@ -150,7 +194,7 @@
 {"affectionChange": -25, "reply": "蘇子之言，仍如當年鋒利，某豈能不憶舊事？"}
 
 你只能回傳一段 JSON，請勿說明，也不要包含其他文字。
-              `
+                `
               },
               {
                 role: "user",
