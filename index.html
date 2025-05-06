@@ -47,10 +47,55 @@
     const userInput = document.getElementById("userInput");
 
     userInput.addEventListener("keydown", async (e) => {
-      if (e.key === "Enter") {
-        const message = userInput.value;
-        userInput.value = "";
-        appendMessage("你", message, "user");
+  if (e.key === "Enter") {
+    const message = userInput.value;
+    userInput.value = "";
+    appendMessage("你", message, "user");
+
+    const proxyURL = "https://cold-poetry-e45b.sophialiu619.workers.dev/"; // 替換成你的網址
+
+    appendMessage("王安石", "（AI 正在思考中...）", "ai");
+
+    const response = await fetch(proxyURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "gpt-3.5-turbo",
+        messages: [
+          {
+            role: "system",
+            content: `
+你正在進行一場角色扮演遊戲。你是北宋大臣王安石，使用者是蘇軾。
+背景如下：
+
+夜色沉沉，風過黃州，蘇軾讀到舊作《次荊公韻四絕》，悵然若失。忽夢回烏臺詩案後，與你重逢。此時你對他心情複雜，有憤怒也有懷念。
+
+請依照角色回應，不要跳脫角色，不要說你是AI。
+請根據蘇軾所說的內容給予回應，語氣需符合王安石其人。
+如可加入蘇軾與你之間詩文的回憶、政治爭議、個人情感，皆可加入。
+            `
+          },
+          {
+            role: "user",
+            content: message
+          }
+        ]
+      }),
+    });
+
+    const data = await response.json();
+    const aiMessage = data.choices?.[0]?.message?.content || "（王安石沉默不語⋯⋯）";
+
+    // 移除「正在思考中」那段
+    const lastAIEntry = chatBox.querySelector(".ai:last-child");
+    if (lastAIEntry) lastAIEntry.remove();
+
+    appendMessage("王安石", aiMessage, "ai");
+  }
+});
+
 
         // 呼叫 AI 的回覆（這裡我們等等會加上 fetch OpenAI）
         // 傳送請求到你的 Cloudflare Worker API Proxy
