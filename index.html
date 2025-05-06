@@ -28,15 +28,21 @@
       margin-bottom: 1rem;
     }
 
-    #startScreen button {
-      padding: 0.5rem 1.2rem;
-      font-size: 1rem;
-      border: none;
-      border-radius: 8px;
-      background-color: #009688;
-      color: white;
-      cursor: pointer;
-    }
+    button {
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #009688;
+  color: white;
+  cursor: pointer;
+  margin: 0.3rem;
+  transition: background-color 0.3s;
+}
+button:hover {
+  background-color: #00796b;
+}
+
 
     .bar-container {
       background-color: #ddd;
@@ -176,7 +182,7 @@
 客喜而笑，洗盞更酌。肴核既盡，杯盤狼藉。相與枕藉乎舟中，不知東方之既白。
   </pre>
   <br><br>
-  <button onclick="location.reload()">返回封面</button>
+  <button onclick="location.reload()"style="display: block; margin: 1.5rem auto;">返回封面</button>
 </div>
 
   <script>
