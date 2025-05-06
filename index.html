@@ -3,44 +3,67 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>蘇軾與王安石 — 對談遊戲</title>
+  <title>蘇軾與王安石 · 詩歸何處</title>
   <style>
     body {
-      margin: 0;
+      background: #f3f3f3;
       font-family: "Noto Serif TC", serif;
-      background-image: url('https://i.imgur.com/LOU5OvC.jpg'); /* 水墨背景 */
-      background-size: cover;
-      background-position: center;
-      color: #1a1a1a;
-      text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       padding: 2rem;
+      max-width: 600px;
+      margin: auto;
     }
-    .container {
-      background: rgba(255, 255, 255, 0.8);
-      border-radius: 16px;
-      padding: 2rem;
-      max-width: 700px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    .chat-box {
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 1rem;
+      height: 400px;
+      overflow-y: auto;
+      margin-bottom: 1rem;
     }
-    h1 {
-      font-size: 2em;
-      text-align: center;
+    .chat-entry {
+      margin-bottom: 1rem;
     }
-    p {
-      font-size: 1.2em;
-      line-height: 1.8;
+    .user {
+      color: #555;
+      font-weight: bold;
+    }
+    .ai {
+      color: #009688;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 0.5rem;
+      font-size: 1rem;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>蘇軾與王安石：詩歸何處</h1>
-    <p>這是一款互動式對話遊戲，請透過下方按鈕與 AI 展開對話。</p>
-    <p>📜 網頁建構中……</p>
-    <p>稍後將開放角色扮演互動。</p>
-  </div>
+  <h1>詩歸何處：與王安石對談</h1>
+  <div class="chat-box" id="chatBox"></div>
+  <input type="text" id="userInput" placeholder="輸入你想對王安石說的話…" />
+  <script>
+    const chatBox = document.getElementById("chatBox");
+    const userInput = document.getElementById("userInput");
+
+    userInput.addEventListener("keydown", async (e) => {
+      if (e.key === "Enter") {
+        const message = userInput.value;
+        userInput.value = "";
+        appendMessage("你", message, "user");
+
+        // 呼叫 AI 的回覆（這裡我們等等會加上 fetch OpenAI）
+        appendMessage("王安石", "（AI 正在思考中...）", "ai");
+      }
+    });
+
+    function appendMessage(sender, text, type) {
+      const div = document.createElement("div");
+      div.className = `chat-entry ${type}`;
+      div.innerHTML = `<strong>${sender}：</strong> ${text}`;
+      chatBox.appendChild(div);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  </script>
 </body>
 </html>
