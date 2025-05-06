@@ -85,13 +85,28 @@
       }),
     });
 
-    const data = await response.json();
-    const aiMessage = data.choices?.[0]?.message?.content || "（王安石沉默不語⋯⋯）";
+    try {
+  const data = await response.json();
 
-    const lastAIEntry = chatBox.querySelector(".ai:last-child");
-    if (lastAIEntry) lastAIEntry.remove();
+  if (!response.ok) {
+    const error = data?.error?.message || "未知錯誤";
+    throw new Error(`API 錯誤：${error}`);
+  }
 
-    appendMessage("王安石", aiMessage, "ai");
+  const aiMessage = data.choices?.[0]?.message?.content || "（王安石沉默不語⋯⋯）";
+
+  const lastAIEntry = chatBox.querySelector(".ai:last-child");
+  if (lastAIEntry) lastAIEntry.remove();
+
+  appendMessage("王安石", aiMessage, "ai");
+} catch (error) {
+  const lastAIEntry = chatBox.querySelector(".ai:last-child");
+  if (lastAIEntry) lastAIEntry.remove();
+
+  appendMessage("王安石", `（發生錯誤：${error.message}）`, "ai");
+  console.error("AI 回應錯誤：", error);
+}
+
   }
 });
 
