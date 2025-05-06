@@ -160,10 +160,13 @@
       if (e.key === "Enter" && userInput.value.trim() !== "") {
         if (affection <= -100 || affection >= 100) return;
 
-        if (usageCount >= maxUsage) {
-          appendMessage("系統", `你已達到今天的對話上限（${maxUsage} 次），請明天再來找王安石吧！`, "ai");
-          return;
-        }
+  if (usageCount >= maxUsage) {
+      appendMessage("系統", `你已達到今天的對話上限（${maxUsage} 次），請明天再來找王安石吧！`, "ai");
+      setTimeout(() => {
+        endGame();
+      }, 1000); // 等 1 秒讓訊息先顯示
+      return;
+    }
 
         const message = userInput.value;
         userInput.value = "";
