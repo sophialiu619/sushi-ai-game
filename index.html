@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>蘇軾與王安石 · 詩歸何處</title>
+  <title>蘇軾與王安石 · 秋日閒聊</title>
   <style>
     body {
       background: url("https://github.com/sophialiu619/sushi-ai-game/blob/main/background.jpg?raw=true");
@@ -134,7 +134,7 @@ button:hover {
 
   <!-- 封面畫面 -->
   <div id="startScreen">
-    <h2>蘇軾與王安石 · 詩歸何處</h2>
+    <h2>蘇軾與王安石 · 秋日閒聊</h2>
     <p>元豐六年(西元1083年)，秋<br><br>
     蘇軾故地重遊，來到了黃州赤壁，卻意外遇見了王安石。<br>
     據王安石所言，他似乎是來散心的?<br>
@@ -235,7 +235,7 @@ button:hover {
         if (affection <= -100 || affection >= 100) return;
 
   if (usageCount >= maxUsage) {
-      appendMessage("系統", `你已達到今天的對話上限（${maxUsage} 次），請明天再來找王安石吧！`, "ai");
+      appendMessage("系統", `你已達到今天的對話上限（${maxUsage} 次），請往下滑，並改天再來找王安石吧！`, "ai");
       setTimeout(() => {
         endGame();
       }, 1000); // 等 1 秒讓訊息先顯示
@@ -310,7 +310,7 @@ button:hover {
           usageCountDisplay.innerText = `你已使用 ${usageCount} / ${maxUsage} 次對話`;
 
           if (affection === 100 || affection === -100) {
-               appendMessage("系統", "（王安石情感已達極限，此番重逢至此為止）", "ai");
+               appendMessage("系統", "（王安石情感已達極限，此番重逢至此為止，請往下滑。）", "ai");
                setTimeout(() => {
                endGame();
            }, 1000); // 保留一秒讓訊息能顯示再跳結束畫面
