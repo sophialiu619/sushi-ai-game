@@ -148,7 +148,7 @@ button:hover {
     <div class="bar-container"><div id="progressBar" class="progress-bar"></div></div>
     <div class="chat-box" id="chatBox"></div>
     <p id="usageCount"></p>
-    <input type="text" id="userInput" placeholder="請對王安石說些什麼吧" />
+    <input type="text" id="userInput" placeholder="請和王安石開始閒聊吧!" />
     <div id="endScreen">
       免費版遊玩已結束<br>如您想繼續遊玩，請贊助我們團隊~<br>~助力每一個(不知死活的)夢想~
     </div>
@@ -246,7 +246,7 @@ button:hover {
         userInput.value = "";
         appendMessage("你", message, "user");
 
-        appendMessage("王安石", "（王安石正在發呆...）", "ai");
+        appendMessage("王安石", "（王安石正在享用你給的炸蟲蟲...）", "ai");
 
         const proxyURL = "https://cold-poetry-e45b.sophialiu619.workers.dev";
 
